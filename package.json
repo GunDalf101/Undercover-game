@@ -2,7 +2,7 @@
   "name": "undercover-game",
   "version": "1.0.0",
   "private": true,
-  "description": "Undercover party game — real-time rooms, no auth, themed word pairs. Heroku monolith.",
+  "description": "Undercover party game — real-time rooms, no auth, themed word pairs. Render monolith.",
   "engines": {
     "node": "20.x"
   },
@@ -11,8 +11,7 @@
     "dev:server": "nodemon server/index.js",
     "dev:client": "npm --prefix client run dev",
     "dev": "concurrently -k -n server,client -c blue,green \"npm run dev:server\" \"npm run dev:client\"",
-    "build": "npm --prefix client ci --include=dev --no-audit --no-fund && npm --prefix client run build",
-    "heroku-postbuild": "npm run build"
+    "build": "npm --prefix client ci --include=dev --no-audit --no-fund && npm --prefix client run build"
   },
   "dependencies": {
     "express": "^4.19.2",

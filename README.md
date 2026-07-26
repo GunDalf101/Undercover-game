@@ -28,16 +28,13 @@ npm start              # single process on :3001
 
 Test with **3 browser windows** (use incognito to avoid session-storage collisions): one host, two players.
 
-## Deploy to Heroku
+## Deploy to Render
 
-```bash
-git init && git add . && git commit -m "init"
-heroku create <appname>
-git push heroku main
-heroku open
-```
+Push the repo to GitHub, then in the [Render dashboard](https://dashboard.render.com/) pick **New → Blueprint** and point it at the repo. Render reads `render.yaml` and provisions a single web service — no addons, no env vars required.
 
-No addons, no env vars required. Heroku runs `heroku-postbuild` which builds the client, then `web: node server/index.js` from the `Procfile`.
+Build command: `npm install && npm run build` (builds the React client into `public/`).
+Start command: `npm start` (runs `node server/index.js`).
+Health check: `/api/health`.
 
 ## Adding a theme
 
