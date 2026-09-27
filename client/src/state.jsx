@@ -37,8 +37,29 @@ function reducer(state, action) {
     case 'session':
       saveSession(action.value);
       return { ...state, session: action.value };
-    case 'room':
-      return { ...state, room: action.value };
+    case 'room': {
+      const prev = state.room;
+      const next = action.value;
+      const update = { ...state, room: next };
+      if (next) {
+        const roundChanged = prev && prev.round !== next.round;
+        const enteredVote = next.phase === 'vote' && prev?.phase !== 'vote';
+        const leftVote = prev?.phase === 'vote' && next.phase !== 'vote';
+        // A fresh voting round should never inherit stale runoff/elimination state.
+        if (enteredVote || roundChanged || leftVote) {
+          update.runoff = null;
+        }
+        if (enteredVote || roundChanged) {
+          update.lastElimination = null;
+        }
+        if (next.phase === 'lobby') {
+          update.runoff = null;
+          update.lastElimination = null;
+          update.ended = null;
+        }
+      }
+      return update;
+    }
     case 'themes':
       return { ...state, themes: action.value };
     case 'myWord':

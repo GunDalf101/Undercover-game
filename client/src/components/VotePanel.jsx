@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function VotePanel({
   players,
@@ -11,6 +11,10 @@ export default function VotePanel({
   onForceTally,
 }) {
   const [myVote, setMyVote] = useState(null);
+  const alreadyVotedThisRound = votesReceived?.voterIds?.includes(meId);
+  useEffect(() => {
+    if (!alreadyVotedThisRound) setMyVote(null);
+  }, [alreadyVotedThisRound]);
 
   const runoff = runoffCandidates && runoffCandidates.length > 0;
   const targets = players.filter((p) => {
@@ -20,7 +24,7 @@ export default function VotePanel({
     return true;
   });
 
-  const alreadyVoted = votesReceived?.voterIds?.includes(meId);
+  const alreadyVoted = alreadyVotedThisRound;
   const canVote = alive && !alreadyVoted;
   const iAmInRunoff = runoff && runoffCandidates.includes(meId);
 
