@@ -27,6 +27,12 @@ function loadThemes() {
     themesById.set(data.id, data);
   }
   themes.sort((a, b) => a.name.localeCompare(b.name));
+  if (themes.length > 0) {
+    const allPairs = themes.flatMap((t) => t.pairs);
+    const allTheme = { id: 'all', name: 'All Themes (Mix)', pairs: allPairs };
+    themes.unshift(allTheme);
+    themesById.set(allTheme.id, allTheme);
+  }
   console.log(`[themes] loaded ${themes.length}: ${themes.map((t) => t.name).join(', ')}`);
 }
 
